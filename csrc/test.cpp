@@ -71,6 +71,7 @@ int main(int argc, char** argv, char** env) {
     printf("[difftest] Test Start!\n");
     WB_info rtl_wb_info, model_wb_info;
     for(int i = 0; i < 1000000; i++) {
+        printf("[TEST] tick %d\n", i);
         rtl_wb_info = top -> tick();
         if(rtl_wb_info.wb_have_inst) {
             if(check(rtl_wb_info, cpu_run_once()) == -1) {

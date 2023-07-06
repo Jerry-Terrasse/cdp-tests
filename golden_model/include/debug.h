@@ -1,6 +1,8 @@
 #ifndef __DEBUG_H__
 #define __DEBUG_H__
 
+#define DEBUG_ON
+
 #include <stdio.h>
 #include <assert.h>
 #define Log_color(format, ...) \
