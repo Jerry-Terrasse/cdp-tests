@@ -38,6 +38,44 @@ module IROM # (
 
 endmodule
 
+module Controller_ROM (
+    input [10:0] a,
+    output [16:0] spo
+);
+
+    integer i, j, mem_file;
+    localparam coe_bin = "controller.bin";
+    // (* RAM_STYLE="BLOCK" *)
+    reg [16:0] mem[2047: 0];
+    reg [31:0] mem_rd[2047: 0];
+    initial begin
+        for(i = 0; i < 2048; i = i+1) begin
+            mem[i] = 0;
+            mem_rd[i] = 0;
+        end
+        mem_file = $fopen(coe_bin, "r");
+        if(mem_file == 0) begin
+            $display("[ERROR] Open file %s failed, please check whether file exists!\n", coe_bin);
+            $fatal;
+        end
+        $display("[INFO] Controller ROM initialized with %s", `STRINGIFY(`PATH));
+        $fread(mem_rd, mem_file);
+        for(i = 0; i < 2048; i = i+1) begin
+            // $display("%d => %b", i, mem_rd[i]);
+            mem[i] = mem_rd[i][16: 0];
+        end
+    end
+
+    assign spo = mem[a];
+
+    always @(a) begin
+        $display("opcode %b, funct3 %b, funct7 %b", a[10: 4], a[3: 1], a[0]);
+        $display("spo %b", spo);
+    end
+
+endmodule
+
+
 module DRAM # (
     ADDR_BITS = 16
 )(
