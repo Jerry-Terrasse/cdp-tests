@@ -40,13 +40,13 @@ endmodule
 
 module Controller_ROM (
     input [10:0] a,
-    output [16:0] spo
+    output [18:0] spo
 );
 
     integer i, j, mem_file;
     localparam coe_bin = "controller.bin";
     // (* RAM_STYLE="BLOCK" *)
-    reg [16:0] mem[2047: 0];
+    reg [18:0] mem[2047: 0];
     reg [31:0] mem_rd[2047: 0];
     initial begin
         for(i = 0; i < 2048; i = i+1) begin
@@ -62,7 +62,7 @@ module Controller_ROM (
         $fread(mem_rd, mem_file);
         for(i = 0; i < 2048; i = i+1) begin
             // $display("%d => %b", i, mem_rd[i]);
-            mem[i] = mem_rd[i][16: 0];
+            mem[i] = mem_rd[i][18: 0];
         end
     end
 
